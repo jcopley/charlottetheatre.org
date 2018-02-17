@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Login{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Log in</h1>
+</div>
+<div class="col-sm-8 col-md-4 col-lg-3">
+    {{ wtf.quick_form(form) }}
+    <p class="small">Forget your password? <a a href="{{ url_for('auth.send_password_reset') }}">Reset it</a>.</p>
+</div>
+{% endblock %}

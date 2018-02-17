@@ -1,0 +1,11 @@
+<p>Dear {{ user.name }}:</p>
+
+<p>Welcome to charlottetheatre.org.</p>
+<p>To confirm your account, please click on the following link:</p>
+<p><a href="{{ url_for('auth.confirm', token=token, _external=True) }}">Confirm Account</a></p>
+<p>Cordially,</p>
+<p>The charlottetheatre.org Team</p>
+
+
+
+
