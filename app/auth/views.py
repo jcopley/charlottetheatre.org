@@ -83,7 +83,7 @@ def unconfirmed():
 def resend_confirmation():
     token = current_user.generate_confirmation_token()
     send_email(current_user.email, 'Please Confirm Your Account', 'auth/mail/confirm', user=current_user, token=token)
-    flash(f'A confirmation email has been sent to %s.' % current_user.email)
+    flash('A confirmation email has been sent to %s.' % (current_user.email))
     return redirect(url_for('main.index'))
 
 
@@ -95,7 +95,7 @@ def send_email_confirm():
         if current_user.verify_password(form.password.data):
             token = current_user.generate_token('change_email', form.email.data)
             send_email(form.email.data, 'Confirm Your New Email', 'auth/mail/confirm_email', token=token)
-            flash(f'Instructions for confirming your new email have been sent to %s.' % form.email.data)
+            flash('Instructions for confirming your new email have been sent to %s.' % (form.email.data))
             return redirect(url_for('main.index'))
         flash('Email not found.')
     return render_template('auth/template.html', form=form, title='change Your Email')
@@ -111,7 +111,7 @@ def send_password_reset():
         if user is not None:
             token = user.generate_token('reset')
             send_email(form.email.data, 'Reset Your Password', 'auth/mail/reset_password', token=token)
-            flash(f'A password reset email has been sent to %s.' % form.email.data)
+            flash('A password reset email has been sent to %s.' % (form.email.data))
             return redirect(url_for('auth.login'))
         flash('Email not found.')
     return render_template('auth/template.html', form=form, title='Reset Your Password')

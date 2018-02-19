@@ -120,7 +120,7 @@ def follow(username):
         flash('You are already following this user')
     else:
         current_user.follow(user)
-        flash(f'You are now following %s' % user.username)
+        flash('You are now following %s' % (user.username))
     return redirect(url_for('.user', username=username))
 
 
@@ -239,10 +239,10 @@ def unfollow(username):
         return redirect(url_for('.index'))
     if current_user.is_following(user):
         current_user.unfollow(user)
-        flash(f'You are no longer following %s' % user.username)
+        flash('You are no longer following %s' % (user.username))
     else:
         current_user.follow(user)
-        flash(f'You are not following this user')
+        flash('You are not following this user')
     return redirect(url_for('.user', username=username))
 
 
