@@ -271,12 +271,17 @@ class User(UserMixin, db.Model):
         if f:
             db.session.delete(f)
 
-    def generate_token(self, token_type, new_email=None, expiration=3600):
+    def generate_confirmation_token(self, expiration=3600):
         s = Serializer(current_app.config['SECRET_KEY'], expiration)
-        token_dict = {token_type: self.id}
-        if new_email:
-            token_dict['new_email'] = new_email
-        return s.dumps(token_dict)
+        return s.dumps({'confirm': self.id})
+
+    def generate_email_change_token(self, new_email, expiration=3600):
+        s = Serializer(current_app.config['SECRET_KEY'], expiration)
+        return s.dumps({'change_email': self.id, 'new_email': new_email})
+
+    def generate_reset_token(self,  new_email=None, expiration=3600):
+        s = Serializer(current_app.config['SECRET_KEY'], expiration)
+        return s.dumps({'reset': self.id})
 
     def gravatar(self, size=100, default='identicon', rating='pg'):
         if request.is_secure:
