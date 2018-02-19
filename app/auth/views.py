@@ -40,7 +40,7 @@ def register():
                     password=form.password.data)
         db.session.add(user)
         db.session.commit()
-        token = user.generate_token('confirm')
+        token = user.generate_confirmation_token()
         send_email(user.email, 'Please Confirm Your Account', 'auth/mail/confirm', user=user, token=token)
         flash('You can now log in.')
         return redirect(url_for('.login'))
@@ -93,7 +93,7 @@ def send_email_confirm():
     form = ChangeEmailForm()
     if form.validate_on_submit():
         if current_user.verify_password(form.password.data):
-            token = current_user.generate_token('change_email', form.email.data)
+            token = current_user.generate_email_change_token(form.email.data)
             send_email(form.email.data, 'Confirm Your New Email', 'auth/mail/confirm_email', token=token)
             flash('Instructions for confirming your new email have been sent to %s.' % (form.email.data))
             return redirect(url_for('main.index'))
@@ -109,7 +109,7 @@ def send_password_reset():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user is not None:
-            token = user.generate_token('reset')
+            token = user.generate_reset_token()
             send_email(form.email.data, 'Reset Your Password', 'auth/mail/reset_password', token=token)
             flash('A password reset email has been sent to %s.' % (form.email.data))
             return redirect(url_for('auth.login'))
