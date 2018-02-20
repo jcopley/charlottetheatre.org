@@ -57,6 +57,9 @@ class RegistrationForm(FlaskForm):
 class ChangeEmailForm(FlaskForm):
     email = StringField('New Email', validators=[DataRequired(), Length(1, 64),
                                                  Email()])
+
+    password = PasswordField('Password', validators=[DataRequired()])
+
     submit = SubmitField('Update Email Address')
 
     def validate_email(self, field):
